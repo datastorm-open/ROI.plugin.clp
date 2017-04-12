@@ -1,0 +1,16 @@
+Package: ROI.plugin.clp
+Version: 0.1
+Date: 2017-04-10
+Title: ROI.plugin.clp - 'Clp (Coin-or linear programming)' Plugin for the 'R' Optimization Interface
+Authors@R: c(person("Benoit", "Thieurmel", role = c("aut", "cre"), email = "benoit.thieurmel@datastorm.fr"))
+Description: Enhances the R Optimization Infrastructure (ROI) package by registering
+	     the COIN-OR Clp open-source solver from the COIN-OR suite. It allows for
+	     solving linear programming with continuous objective variables keeping sparse 
+	     constraints definition.
+Imports: methods, stats, ROI (>= 0.2-1), clpAPI, slam, Matrix
+License: EPL
+URL: https://github.com/datastorm-open/ROI.plugin.clp,
+        https://projects.coin-or.org/Clp
+NeedsCompilation: no
+RoxygenNote: 6.0.1
+Suggests: testthat
