@@ -15,7 +15,7 @@ testthat::test_that("find solution", {
                                   rhs = c(60, 40, 80)), bounds = NULL,
                 max = TRUE)
   
-  res_lp <- ROI::ROI_solve(x = LP, solver = "clp")
+  res_lp <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 4))
   
   testthat::expect_equal(round(res_lp$solution, 2), c(0.00, 6.67, 16.67))
 })

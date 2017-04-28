@@ -32,4 +32,7 @@ LP <- ROI::OP(c(2, 4, 3),
 res_lp <- ROI::ROI_solve(x = LP, solver = "clp")
 res_lp$solution
 res_lp$objval
+
+## control log level (0.2), ?clpAPI::setLogLevelCLP
+res_lp <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 1))
 ````

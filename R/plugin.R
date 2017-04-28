@@ -6,6 +6,7 @@
 #' @importFrom Matrix sparseMatrix
 #' @importFrom stats terms
 solve_OP <- function( x, control) {
+  
     solver <- .ROI_plugin_get_solver_name( getPackageName() )
 
     # type control
@@ -23,7 +24,7 @@ solve_OP <- function( x, control) {
                        bounds = bounds(x),
                        max = x$maximum )
     
-    ## handle STMs (shouldn't this be done on the Rsymphony side?)
+    ## handle STMs
     if( slam::is.simple_triplet_matrix(main_args$obj))
       obj_coef <- as.matrix( main_args$obj )[1, ]
     
@@ -38,7 +39,6 @@ solve_OP <- function( x, control) {
     nrows <- nrow(s_mat)
     
     # range of rows
-    # see < and > ?
     rlb <- ifelse(main_args$dir %in% c("<="), -Inf, main_args$rhs)
     rub <- ifelse(main_args$dir %in% c(">="), Inf, main_args$rhs)
     
@@ -58,6 +58,13 @@ solve_OP <- function( x, control) {
     
     # preparing the model
     lp <- clpAPI::initProbCLP()
+    
+    # log level ?
+    if("amount"%in%names(control)){
+      stopifnot(control$amount %in% 0:4)
+      setLogLevelCLP(lp, control$amount)
+      control$amount <- NULL
+    }
     
     # minimize
     lpdir <- ifelse(main_args$max, -1, 1)
@@ -85,10 +92,7 @@ solve_OP <- function( x, control) {
 ## STATUS CODES
 .add_status_codes <- function( ) {
 
-    ## SYMPHONY
-    ## SYMPHONY 5.5.10 (no reference found yet)
-    ## FIXME: better description of status in message
-
+    ## SEE clpAPI::status_codeCLP
     solver <- .ROI_plugin_get_solver_name( getPackageName() )
     .ROI_plugin_add_status_code_to_db(solver,
                                 0L,
@@ -121,28 +125,10 @@ solve_OP <- function( x, control) {
 }
 
 # ## SOLVER CONTROLS
-# .add_controls <- function(){
-#     solver <- .ROI_plugin_get_solver_name( getPackageName() )
-#     ## ROI + SYMPHONY
-#     .ROI_plugin_register_solver_control( solver,
-#                                         "presolve",
-#                                         "presolve" )
-#     .ROI_plugin_register_solver_control( solver,
-#                                         "time_limit",
-#                                         "max_time" )
-#     ## SYMPHONY ONLY
-#     ## FIXME: translation of verbosity level to verbose needed or how to set default level?
-#     .ROI_plugin_register_solver_control( solver,
-#                                         "verbosity",
-#                                         "X" )
-#     .ROI_plugin_register_solver_control( solver,
-#                                          "node_limit",
-#                                          "X" )
-#     .ROI_plugin_register_solver_control( solver,
-#                                          "gap_limit",
-#                                          "X" )
-#     .ROI_plugin_register_solver_control( solver,
-#                                          "first_feasible",
-#                                          "X" )
-#     invisible( TRUE )
-# }
+.add_controls <- function(){
+    solver <- .ROI_plugin_get_solver_name(getPackageName())
+
+    .ROI_plugin_register_solver_control( solver, "amount", "X")
+
+    invisible( TRUE )
+}
