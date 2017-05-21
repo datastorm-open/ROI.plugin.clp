@@ -7,7 +7,7 @@
 #' @importFrom stats terms
 solve_OP <- function( x, control) {
   
-    solver <- .ROI_plugin_get_solver_name( getPackageName() )
+    solver <- ROI_plugin_get_solver_name( getPackageName() )
 
     # type control
     if(!is.null(x$types)){
@@ -79,7 +79,7 @@ solve_OP <- function( x, control) {
     clpAPI::solveInitialCLP(lp)
     
     ## ROI format
-    ROI_sol <- .ROI_plugin_canonicalize_solution(solution = clpAPI::getColPrimCLP(lp),
+    ROI_sol <- ROI_plugin_canonicalize_solution(solution = clpAPI::getColPrimCLP(lp),
                                  optimum = clpAPI::getObjValCLP(lp),
                                  status = clpAPI::getSolStatusCLP(lp),
                                  solver = solver)
@@ -93,29 +93,29 @@ solve_OP <- function( x, control) {
 .add_status_codes <- function( ) {
 
     ## SEE clpAPI::status_codeCLP
-    solver <- .ROI_plugin_get_solver_name( getPackageName() )
-    .ROI_plugin_add_status_code_to_db(solver,
+    solver <- ROI_plugin_get_solver_name( getPackageName() )
+    ROI_plugin_add_status_code_to_db(solver,
                                 0L,
                                 "solution is optimal",
                                 "solution is optimal",
                                 0L
                                 )
-    .ROI_plugin_add_status_code_to_db(solver,
+    ROI_plugin_add_status_code_to_db(solver,
                                 1L,
                                 "solution is primal infeasible",
                                 "solution is primal infeasible"
                                 )
-    .ROI_plugin_add_status_code_to_db(solver,
+    ROI_plugin_add_status_code_to_db(solver,
                                 2L,
                                 "solution is dual infeasible",
                                 "solution is dual infeasible"
                                 )
-    .ROI_plugin_add_status_code_to_db(solver,
+    ROI_plugin_add_status_code_to_db(solver,
                                 3L,
                                 "stopped on iterations etc",
                                 "stopped on iterations etc"
                                 )
-    .ROI_plugin_add_status_code_to_db(solver,
+    ROI_plugin_add_status_code_to_db(solver,
                                 4L,
                                 "stopped due to errors",
                                 "stopped due to errors"
@@ -126,9 +126,9 @@ solve_OP <- function( x, control) {
 
 # ## SOLVER CONTROLS
 .add_controls <- function(){
-    solver <- .ROI_plugin_get_solver_name(getPackageName())
+    solver <- ROI_plugin_get_solver_name(getPackageName())
 
-    .ROI_plugin_register_solver_control( solver, "amount", "X")
+    ROI_plugin_register_solver_control( solver, "amount", "X")
 
     invisible( TRUE )
 }

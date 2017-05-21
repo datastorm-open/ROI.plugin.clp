@@ -1,9 +1,9 @@
 make_LP_signatures <- function() {
-  .ROI_plugin_make_signature(objective = c("L"),
+  ROI_plugin_make_signature(objective = c("L"),
                              constraints = c("X", "L"),
                              types = c("C"),
                              bounds = c("X", "V"),
-                             cones = c("free"),
+                             cones = c("X", "free"),
                              maximum = c(TRUE, FALSE))
 }
 
@@ -13,8 +13,8 @@ make_LP_signatures <- function() {
   if( ! pkgname %in% ROI_registered_solvers() ){
     ## Register solver methods here.
     ## One can assign several signatures a single solver method
-    solver <- .ROI_plugin_get_solver_name( pkgname )
-    .ROI_plugin_register_solver_method( signatures = make_LP_signatures(),
+    solver <- ROI_plugin_get_solver_name( pkgname )
+    ROI_plugin_register_solver_method( signatures = make_LP_signatures(),
                                         solver = solver,
                                         method =
                                           getFunction( "solve_OP", where = getNamespace(pkgname)) )
@@ -23,7 +23,3 @@ make_LP_signatures <- function() {
     .add_controls()
   }
 }
-
-#.onUnload <- function( libpath ){
-#    .ROI_plugin_deregister_solver_methods( solver = "glpk" )
-#}

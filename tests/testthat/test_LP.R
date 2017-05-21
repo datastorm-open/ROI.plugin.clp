@@ -25,10 +25,10 @@ testthat::test_that("with bounds", {
                 ROI::L_constraint(L = matrix(c(3, 2, 1, 4, 1, 3, 2, 2, 2), nrow = 3),
                                   dir = c("<=", "<=", "<="),
                                   rhs = c(60, 40, 80)), 
-                bounds = V_bound(ui=3, ub=15, li = 1, lb = 2),
+                bounds = ROI::V_bound(ui=3, ub=15, li = 1, lb = 2),
                 max = TRUE)
   
-  res_lp <- ROI::ROI_solve(x = LP, solver = "clp")
+  res_lp <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 0))
   
   testthat::expect_equal(res_lp$solution, c(2, 6, 15))
 })
