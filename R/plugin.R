@@ -128,7 +128,6 @@ solve_OP <- function( x, control) {
 .add_controls <- function(){
     solver <- ROI_plugin_get_solver_name(getPackageName())
 
-    ROI_plugin_register_solver_control( solver, "amount", "X")
-
+    ROI_plugin_register_solver_control( solver, "amount", "verbosity_level")
     invisible( TRUE )
 }

@@ -1,6 +1,6 @@
 Package: ROI.plugin.clp
-Version: 0.3
-Date: 2017-05-21
+Version: 0.4
+Date: 2017-09-06
 Title: 'Clp (Coin-or linear programming)' Plugin for the 'R' Optimization Interface
 Authors@R: c(person("Benoit", "Thieurmel", role = c("aut", "cre"), email = "benoit.thieurmel@datastorm.fr"))
 Description: Enhances the R Optimization Infrastructure (ROI) package by registering
