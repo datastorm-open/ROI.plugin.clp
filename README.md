@@ -35,4 +35,11 @@ res_lp$objval
 
 ## control log level (0.2), ?clpAPI::setLogLevelCLP
 res_lp <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 1))
+
+## max iterations, ?clpAPI::setMaximumIterationsCLP (clpAPI >= 1.2.8)
+res_lp <- ROI::ROI_solve(x = LP, solver = "clp", control = list(iterations = 1))
+
+## max seconds, ?clpAPI::setMaximumSecondsCLP (clpAPI >= 1.2.8)
+res_lp <- ROI::ROI_solve(x = LP, solver = "clp", control = list(seconds = 1))
+
 ````

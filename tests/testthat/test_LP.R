@@ -42,11 +42,33 @@ testthat::test_that("identical results", {
                 max = TRUE)
   
   res_1 <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 0))
-  res_2 <- ROI::ROI_solve(x = LP, solver = "clp", control = list(verbosity_level = 0))
+  res_2 <- ROI::ROI_solve(x = LP, solver = "clp", control = list(verbosity_level = 1))
   res_3 <- ROI::ROI_solve(x = LP, solver = "clp", amount = 0L)
   res_4 <- ROI::ROI_solve(x = LP, solver = "clp", verbosity_level = 0L)
   
   testthat::expect_equal(res_1, res_2)
   testthat::expect_equal(res_2, res_3)
   testthat::expect_equal(res_3, res_4)
+})
+
+
+testthat::test_that("controls", {
+  LP <- ROI::OP(c(2, 4, 3),
+                ROI::L_constraint(L = matrix(c(3, 2, 1, 4, 1, 3, 2, 2, 2), nrow = 3),
+                                  dir = c("<=", "<=", "<="),
+                                  rhs = c(60, 40, 80)), bounds = NULL,
+                max = TRUE)
+  
+  res_lp_0 <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 0, iterations = 0))
+  res_lp_1 <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 0, iterations = 1))
+  res_lp_2 <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 0, iterations = 2))
+  
+  testthat::expect_true(!isTRUE(all.equal(res_lp_0, res_lp_1)))
+  testthat::expect_true(!isTRUE(all.equal(res_lp_1, res_lp_2)))
+  
+  res_lp_0 <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 0, seconds = 0))
+  res_lp_1 <- ROI::ROI_solve(x = LP, solver = "clp", control = list(amount = 0, seconds = 1))
+  
+  testthat::expect_true(!isTRUE(all.equal(res_lp_0, res_lp_1)))
+  
 })

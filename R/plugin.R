@@ -62,8 +62,26 @@ solve_OP <- function( x, control) {
     # log level ?
     if("amount"%in%names(control)){
       stopifnot(control$amount %in% 0:4)
-      setLogLevelCLP(lp, control$amount)
+      clpAPI::setLogLevelCLP(lp, control$amount)
       control$amount <- NULL
+    }
+    
+    # max iterations
+    if("iterations"%in%names(control)){
+      ctrl <- try(clpAPI::setMaximumIterationsCLP(lp, control$iterations), silent = TRUE)
+      if("try-error" %in% class(ctrl)){
+        warning("Can't set 'iterations' : ", ctrl[1])
+      }
+      control$iterations <- NULL
+    }
+    
+    # max seconds
+    if("seconds"%in%names(control)){
+      ctrl <- try(clpAPI::setMaximumSecondsCLP(lp, control$seconds), silent = TRUE)
+      if("try-error" %in% class(ctrl)){
+        warning("Can't set 'seconds' : ", ctrl[1])
+      }
+      control$seconds <- NULL
     }
     
     # minimize
@@ -128,6 +146,6 @@ solve_OP <- function( x, control) {
 .add_controls <- function(){
     solver <- ROI_plugin_get_solver_name(getPackageName())
 
-    ROI_plugin_register_solver_control( solver, "amount", "verbosity_level")
+    ROI_plugin_register_solver_control( solver, c("amount", "verbosity_level", "iterations", "seconds"))
     invisible( TRUE )
 }
