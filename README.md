@@ -1,3 +1,6 @@
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ROI.plugin.clp)](http://cran.r-project.org/package=ROI.plugin.clp) 
+[![CRAN Downloads Badge](https://cranlogs.r-pkg.org/badges/ROI.plugin.clp)](http://cran.r-project.org/package=ROI.plugin.clp)
+
 # ROI.plugin.clp
 
 ### ROI.plugin.clp — 'Clp (Coin-or linear programming)' Plugin for the 'R' Optimization Interface
